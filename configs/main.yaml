@@ -1,0 +1,5 @@
+
+messages:
+  responses:
+    start: "you can start communication with gpt by text or audio"
+    unknown_command: "I do not know this command"
