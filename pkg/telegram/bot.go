@@ -1,7 +1,6 @@
 package telegram
 
 import (
-	"log"
 
 	"github.com/eserzhan/tgBot/pkg/assembly"
 	"github.com/eserzhan/tgBot/pkg/logger"
@@ -13,7 +12,6 @@ import (
 const (
 	startCommand = "start"
 
-	//startMessage = "Привет! Чтобы начать сохранять ссылки в своем Pocket аккаунте, для начала тебе необходимо дать мне на это доступ. Для этого переходи по ссылке:\n%s"
 )
 
 type Bot struct {
@@ -34,13 +32,13 @@ func (b *Bot) Run() {
 	updates := b.bot.GetUpdatesChan(u)
 
 	for update := range updates {
-		if update.Message == nil { // If we got a message
+		if update.Message == nil {
 			continue 
 		}
 
 		if update.Message.IsCommand() {
 			if err := b.handleCommand(update.Message); err != nil {
-				// b.errorHandler(update.Message.Chat.ID, err)
+				logger.Error(err)
 				continue
 			}
 			continue
@@ -53,7 +51,7 @@ func (b *Bot) Run() {
 			}
 		}else if update.Message.Text != "" {
 			if err := b.handleMessage(update.Message); err != nil {
-				log.Println(err)
+				logger.Error(err)
 				continue
 			}
 		}
